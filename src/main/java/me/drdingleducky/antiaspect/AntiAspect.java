@@ -34,18 +34,15 @@ public final class AntiAspect extends JavaPlugin implements Listener {
 
     @EventHandler
     public void onEnchantItem(EnchantItemEvent event) {
-        getServer().getScheduler().runTaskLater(this, new Runnable() {
-            @Override
-            public void run() {
-                if (event.getItem().getEnchantments().containsKey(Enchantment.FIRE_ASPECT)) {
-                    event.getItem().removeEnchantment(Enchantment.FIRE_ASPECT);
-                    event.getEnchanter().sendMessage("Removed Fire!!!");
-                    if (!event.getItem().getEnchantments().containsKey(Enchantment.DAMAGE_ALL)) {
-                        event.getItem().addEnchantment(Enchantment.DAMAGE_ALL, 1);
-                        event.getEnchanter().sendMessage("Added Sharp 1!!!");
-                    } else {
-                        event.getEnchanter().sendMessage("Already Sharp!!!");
-                    }
+        getServer().getScheduler().runTaskLater(this, () -> {
+            if (event.getItem().getEnchantments().containsKey(Enchantment.FIRE_ASPECT)) {
+                event.getItem().removeEnchantment(Enchantment.FIRE_ASPECT);
+                event.getEnchanter().sendMessage("Removed Fire!!!");
+                if (!event.getItem().getEnchantments().containsKey(Enchantment.DAMAGE_ALL)) {
+                    event.getItem().addEnchantment(Enchantment.DAMAGE_ALL, 1);
+                    event.getEnchanter().sendMessage("Added Sharp 1!!!");
+                } else {
+                    event.getEnchanter().sendMessage("Already Sharp!!!");
                 }
             }
         }, 1);
