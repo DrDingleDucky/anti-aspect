@@ -27,7 +27,6 @@ public final class AntiAspect extends JavaPlugin implements Listener {
             if (offer != null && offer.getEnchantment().equals(Enchantment.FIRE_ASPECT)) {
                 offer.setEnchantment(Enchantment.DAMAGE_ALL);
                 offer.setEnchantmentLevel(1);
-                event.getEnchanter().sendMessage("Display Sharp 1!!!");
             }
         }
     }
@@ -37,12 +36,8 @@ public final class AntiAspect extends JavaPlugin implements Listener {
         getServer().getScheduler().runTaskLater(this, () -> {
             if (event.getItem().getEnchantments().containsKey(Enchantment.FIRE_ASPECT)) {
                 event.getItem().removeEnchantment(Enchantment.FIRE_ASPECT);
-                event.getEnchanter().sendMessage("Removed Fire!!!");
                 if (!event.getItem().getEnchantments().containsKey(Enchantment.DAMAGE_ALL)) {
                     event.getItem().addEnchantment(Enchantment.DAMAGE_ALL, 1);
-                    event.getEnchanter().sendMessage("Added Sharp 1!!!");
-                } else {
-                    event.getEnchanter().sendMessage("Already Sharp!!!");
                 }
             }
         }, 1);
