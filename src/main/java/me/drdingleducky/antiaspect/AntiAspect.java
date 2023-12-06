@@ -10,6 +10,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class AntiAspect extends JavaPlugin implements Listener {
 
+    int enchantmentLevel = 1;
+
     @Override
     public void onEnable() {
         getLogger().info("Hello From AntiAspect!");
@@ -26,7 +28,19 @@ public final class AntiAspect extends JavaPlugin implements Listener {
         for (EnchantmentOffer offer : event.getOffers()) {
             if (offer != null && offer.getEnchantment().equals(Enchantment.FIRE_ASPECT)) {
                 offer.setEnchantment(Enchantment.DAMAGE_ALL);
-                offer.setEnchantmentLevel(1);
+                if (event.getEnchantmentBonus() <= 4) {
+                    offer.setEnchantmentLevel(1);
+                    enchantmentLevel = 1;
+                } else if (event.getEnchantmentBonus() <= 8) {
+                    offer.setEnchantmentLevel(2);
+                    enchantmentLevel = 2;
+                } else if (event.getEnchantmentBonus() <= 11) {
+                    offer.setEnchantmentLevel(3);
+                    enchantmentLevel = 3;
+                } else if (event.getEnchantmentBonus() <= 15) {
+                    offer.setEnchantmentLevel(4);
+                    enchantmentLevel = 4;
+                }
             }
         }
     }
@@ -36,9 +50,8 @@ public final class AntiAspect extends JavaPlugin implements Listener {
         getServer().getScheduler().runTaskLater(this, () -> {
             if (event.getItem().getEnchantments().containsKey(Enchantment.FIRE_ASPECT)) {
                 event.getItem().removeEnchantment(Enchantment.FIRE_ASPECT);
-                if (!event.getItem().getEnchantments().containsKey(Enchantment.DAMAGE_ALL)) {
-                    event.getItem().addEnchantment(Enchantment.DAMAGE_ALL, 1);
-                }
+                event.getItem().removeEnchantment(Enchantment.DAMAGE_ALL);
+                event.getItem().addEnchantment(Enchantment.DAMAGE_ALL, enchantmentLevel);
             }
         }, 1);
     }
