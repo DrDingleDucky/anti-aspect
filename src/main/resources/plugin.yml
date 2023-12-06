@@ -1,0 +1,4 @@
+name: AntiAspect
+version: '${version}'
+main: me.drdingleducky.antiaspect.AntiAspect
+api-version: '1.20'
